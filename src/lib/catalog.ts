@@ -12,7 +12,7 @@ export const catalog: CatalogItem[] = [
     description: "TODO: short teaser description.",
     priceUsd: 15,
     driveFileId: "TODO_PASTE_DRIVE_FILE_ID",
-    thumbnail: "/images/gallery/placeholder-1.svg",
+    thumbnail: "/images/gallery/gallery-2.jpg", // TODO: swap for a real teaser thumbnail
   },
 ];
 
