@@ -15,6 +15,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [orders, setOrders] = useState<OrderWithItem[] | null>(null);
+  const [loadError, setLoadError] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
 
   async function loadOrders() {
@@ -23,6 +24,13 @@ export default function AdminPage() {
       setAuthed(false);
       return;
     }
+    if (!res.ok) {
+      setLoadError(
+        "Logged in, but couldn't load orders — check that Redis (Upstash) is connected in Vercel."
+      );
+      return;
+    }
+    setLoadError("");
     const data = await res.json();
     setOrders(data.orders);
     setAuthed(true);
@@ -46,6 +54,7 @@ export default function AdminPage() {
       return;
     }
     setPassword("");
+    setAuthed(true);
     loadOrders();
   }
 
@@ -94,6 +103,12 @@ export default function AdminPage() {
         <p className="mt-1 text-sm text-muted">
           Approve only after you&apos;ve confirmed the matching payment in Cash App or Venmo.
         </p>
+
+        {loadError && (
+          <p className="mt-4 rounded-lg border border-accent/30 bg-panel2 px-4 py-3 text-sm text-accent">
+            {loadError}
+          </p>
+        )}
 
         <div className="mt-8 space-y-4">
           {orders && orders.length === 0 && (

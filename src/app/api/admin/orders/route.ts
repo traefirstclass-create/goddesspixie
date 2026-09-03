@@ -8,12 +8,20 @@ export async function GET() {
   if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const orders = await listPendingOrders();
-  const withItems = orders.map((order) => ({
-    ...order,
-    item: getCatalogItem(order.itemId) ?? null,
-  }));
-  return NextResponse.json({ orders: withItems });
+  try {
+    const orders = await listPendingOrders();
+    const withItems = orders.map((order) => ({
+      ...order,
+      item: getCatalogItem(order.itemId) ?? null,
+    }));
+    return NextResponse.json({ orders: withItems });
+  } catch (err) {
+    console.error("failed to list pending orders", err);
+    return NextResponse.json(
+      { error: "Could not reach the orders store. Is Redis configured?" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {

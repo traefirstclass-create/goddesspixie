@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const STORAGE_KEY = "gp_age_verified";
 
 export default function AgeGate({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [verified, setVerified] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -23,6 +25,9 @@ export default function AgeGate({ children }: { children: React.ReactNode }) {
     }
     setVerified(true);
   }
+
+  // The admin dashboard is an internal tool, not adult content — never gate it.
+  if (pathname?.startsWith("/admin")) return <>{children}</>;
 
   if (verified === null) return null;
 
