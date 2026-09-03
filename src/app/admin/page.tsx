@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { CatalogItem, Order } from "@/types";
+import AnalyticsPanel from "@/components/admin/AnalyticsPanel";
 
 type OrderWithItem = Order & { item: CatalogItem | null };
 
@@ -99,6 +100,8 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-ink px-6 py-12">
       <div className="mx-auto max-w-2xl">
+        <AnalyticsPanel />
+
         <h1 className="font-display text-2xl text-white">Pending orders</h1>
         <p className="mt-1 text-sm text-muted">
           Approve only after you&apos;ve confirmed the matching payment in Cash App or Venmo.

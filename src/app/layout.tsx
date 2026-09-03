@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import AgeGate from "@/components/AgeGate";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} font-body bg-ink text-white`}>
+        <AnalyticsTracker />
         <AgeGate>{children}</AgeGate>
       </body>
     </html>

@@ -1,4 +1,15 @@
-import { links } from "@/lib/links";
+"use client";
+
+import { links, slugifyLinkLabel } from "@/lib/links";
+
+function trackClick(label: string) {
+  fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "click", linkId: slugifyLinkLabel(label) }),
+    keepalive: true,
+  }).catch(() => {});
+}
 
 export default function LinksGrid() {
   return (
@@ -10,6 +21,7 @@ export default function LinksGrid() {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackClick(link.label)}
             className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-panel px-6 py-3.5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-glow"
           >
             <span>{link.emoji}</span>

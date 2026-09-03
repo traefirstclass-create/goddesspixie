@@ -28,3 +28,9 @@ export type DownloadToken = {
   expiresAt: number;
   used: boolean;
 };
+
+export type AnalyticsSummary = {
+  totalPageviews: number;
+  last7Days: { date: string; count: number }[];
+  linkClicks: { linkId: string; count: number }[];
+};

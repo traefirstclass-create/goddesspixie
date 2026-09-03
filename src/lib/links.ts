@@ -22,3 +22,11 @@ export const links: SocialLink[] = [
 
 export const cashAppHandle = process.env.NEXT_PUBLIC_CASHAPP_HANDLE || "$pixieinthehoops7";
 export const venmoHandle = process.env.NEXT_PUBLIC_VENMO_HANDLE || "@pixieinthehoops7";
+
+export function slugifyLinkLabel(label: string): string {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64);
+}

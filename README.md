@@ -16,6 +16,13 @@ manual approval flow, not real-time checkout:
    that streams the file straight from Google Drive server-side. The buyer never sees the Drive
    URL or folder, and can't browse anything else in it.
 
+## Web analytics
+
+`/admin` shows a Web Analytics panel above the pending orders — total page views, a 7-day trend,
+and a per-link click breakdown (Instagram, OnlyFans, etc.). It's first-party: tracked via a
+`/api/track` beacon into the same Redis used for orders, no third-party analytics service
+involved. Like orders, it needs Redis connected to show real numbers.
+
 ## One-time setup before this works
 
 You'll need to create a few accounts/keys — I can't provision third-party accounts for you.
