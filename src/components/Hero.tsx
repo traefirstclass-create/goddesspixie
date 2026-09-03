@@ -37,7 +37,7 @@ export default function Hero() {
         Goddess Pixie
       </h1>
       <p className="mx-auto mt-3 max-w-md text-sm text-muted sm:text-base">
-        Model &amp; performer. Exclusives, customs, and everywhere else you can find me — all in
+        Model &amp; performer. Exclusives, customs, and everywhere else you can find me, all in
         one place.
       </p>
     </section>
