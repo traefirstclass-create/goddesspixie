@@ -14,6 +14,14 @@ export const catalog: CatalogItem[] = [
     driveFileId: "1LDiitmm1pNPbGUm_O_gAuUJi5HkqrSTn",
     thumbnail: "/images/gallery/catalog-bikini-strip.jpg",
   },
+  {
+    id: "wwyd-little-slut",
+    title: "WWYD TO FUCK A LITTLE SLUT LIKE ME?",
+    description: "Homewrecker slut here to ruin your life and take everything you own!",
+    priceUsd: 25,
+    driveFileId: "1haGVSEZzRza6ljXslj2apptxofVA1uSz",
+    thumbnail: "/images/gallery/catalog-wwyd.jpg",
+  },
 ];
 
 export function getCatalogItem(id: string): CatalogItem | undefined {
