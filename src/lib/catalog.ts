@@ -7,12 +7,12 @@ import { CatalogItem } from "@/types";
 // download token is.
 export const catalog: CatalogItem[] = [
   {
-    id: "example-clip-1",
-    title: "TODO: name this item",
-    description: "TODO: short teaser description.",
+    id: "bikini-strip",
+    title: "Bikini Strip",
+    description: "Watch me as I strip out of my bikini top and bottoms just for you.",
     priceUsd: 15,
-    driveFileId: "TODO_PASTE_DRIVE_FILE_ID",
-    thumbnail: "/images/gallery/gallery-2.jpg", // TODO: swap for a real teaser thumbnail
+    driveFileId: "1LDiitmm1pNPbGUm_O_gAuUJi5HkqrSTn",
+    thumbnail: "/images/gallery/catalog-bikini-strip.jpg",
   },
 ];
 
