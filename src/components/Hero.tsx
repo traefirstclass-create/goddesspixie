@@ -11,9 +11,10 @@ export default function Hero() {
       <div className="mx-auto h-32 w-32 overflow-hidden rounded-full border-2 border-accent/60 shadow-glow sm:h-40 sm:w-40">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/gallery/placeholder-avatar.svg"
+          src="/images/gallery/placeholder-avatar.jpg"
           alt="Goddess Pixie"
           className="h-full w-full object-cover"
+          style={{ objectPosition: "68% 42%" }}
         />
       </div>
       <h1 className="mt-6 font-display text-4xl font-bold tracking-tight sm:text-5xl">
