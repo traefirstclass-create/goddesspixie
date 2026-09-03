@@ -2,22 +2,39 @@ import { GoogleAuth } from "google-auth-library";
 
 let cachedAuth: GoogleAuth | null = null;
 
+// Vercel's dashboard stores exactly what you paste, including any wrapping
+// quotes copied from a .env-style example or the downloaded JSON key file —
+// strip a single matching pair if present.
+function unwrapQuotes(value: string): string {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+}
+
 function getAuth(): GoogleAuth {
   if (cachedAuth) return cachedAuth;
 
-  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const rawEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const rawKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
-  if (!email || !rawKey) {
+  if (!rawEmail || !rawKey) {
     throw new Error(
       "GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY are not set"
     );
   }
 
+  const email = unwrapQuotes(rawEmail);
+  const key = unwrapQuotes(rawKey);
+
   cachedAuth = new GoogleAuth({
     credentials: {
       client_email: email,
       // Vercel env vars store literal "\n" — convert back to real newlines.
-      private_key: rawKey.replace(/\\n/g, "\n"),
+      private_key: key.replace(/\\n/g, "\n"),
     },
     scopes: ["https://www.googleapis.com/auth/drive.readonly"],
   });
