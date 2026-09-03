@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 import { catalog } from "@/lib/catalog";
-import { cashAppHandle } from "@/lib/links";
-import type { CatalogItem } from "@/types";
+import { cashAppHandle, venmoHandle } from "@/lib/links";
+import type { CatalogItem, PaymentMethod } from "@/types";
+
+const PAYMENT_OPTIONS: { value: PaymentMethod; label: string; handle: string }[] = [
+  { value: "cashapp", label: "Cash App", handle: cashAppHandle },
+  { value: "venmo", label: "Venmo", handle: venmoHandle },
+];
 
 function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cashapp");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  const selected = PAYMENT_OPTIONS.find((o) => o.value === paymentMethod)!;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -16,7 +24,7 @@ function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) 
     const res = await fetch("/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ itemId: item.id, buyerEmail: email, note }),
+      body: JSON.stringify({ itemId: item.id, buyerEmail: email, note, paymentMethod }),
     });
     setStatus(res.ok ? "sent" : "error");
   }
@@ -25,7 +33,7 @@ function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) 
     return (
       <div className="mt-4 rounded-lg border border-accent/30 bg-panel2 p-4 text-sm text-white">
         Got it! Send <span className="font-semibold">${item.priceUsd}</span> to{" "}
-        <span className="font-semibold">{cashAppHandle}</span> on Cash App with a note
+        <span className="font-semibold">{selected.handle}</span> on {selected.label} with a note
         referencing <span className="font-semibold">{item.title}</span>. Once payment is
         confirmed, your one-time download link goes to <span className="font-semibold">{email}</span>.
         <button onClick={onDone} className="mt-3 block text-xs text-muted underline">
@@ -37,11 +45,27 @@ function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) 
 
   return (
     <form onSubmit={submit} className="mt-4 space-y-3">
+      <div className="flex gap-2">
+        {PAYMENT_OPTIONS.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => setPaymentMethod(option.value)}
+            className={`flex-1 rounded-full border py-1.5 text-xs font-medium transition ${
+              paymentMethod === option.value
+                ? "border-accent bg-accent/15 text-white"
+                : "border-white/15 text-muted hover:border-white/30 hover:text-white"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
       <p className="text-xs text-muted">
         Step 1: enter the email you want your download link sent to. Step 2: send{" "}
         <span className="font-semibold text-white">${item.priceUsd}</span> to{" "}
-        <span className="font-semibold text-white">{cashAppHandle}</span> on Cash App. Delivery
-        is manual — expect your link once payment is verified.
+        <span className="font-semibold text-white">{selected.handle}</span> on {selected.label}.
+        Delivery is manual — expect your link once payment is verified.
       </p>
       <input
         type="email"
@@ -53,7 +77,7 @@ function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) 
       />
       <input
         type="text"
-        placeholder="Cash App name/note (optional, helps me match your payment)"
+        placeholder={`${selected.label} name/note (optional, helps me match your payment)`}
         value={note}
         onChange={(e) => setNote(e.target.value)}
         className="w-full rounded-lg border border-white/10 bg-panel2 px-4 py-2 text-sm text-white outline-none focus:border-accent"
@@ -66,7 +90,7 @@ function OrderForm({ item, onDone }: { item: CatalogItem; onDone: () => void }) 
         disabled={status === "sending"}
         className="w-full rounded-full bg-accent py-2 text-sm font-semibold text-white transition hover:brightness-110 disabled:opacity-50"
       >
-        {status === "sending" ? "Submitting…" : "I'll pay via Cash App"}
+        {status === "sending" ? "Submitting…" : `I'll pay via ${selected.label}`}
       </button>
     </form>
   );
@@ -79,7 +103,7 @@ export default function PPVCatalog() {
     <section className="mx-auto max-w-3xl px-6 py-10">
       <h2 className="font-display text-2xl text-white">Exclusive content</h2>
       <p className="mt-1 text-sm text-muted">
-        Custom &amp; exclusive clips, sold individually. Payment via Cash App, delivered as a
+        Custom &amp; exclusive clips, sold individually. Pay via Cash App or Venmo, delivered as a
         private one-time download link after purchase is confirmed.
       </p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">

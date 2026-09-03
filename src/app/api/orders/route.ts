@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
   const itemId = typeof body?.itemId === "string" ? body.itemId : "";
   const buyerEmail = typeof body?.buyerEmail === "string" ? body.buyerEmail.trim() : "";
   const note = typeof body?.note === "string" ? body.note.trim().slice(0, 500) : "";
+  const paymentMethod = body?.paymentMethod === "venmo" ? "venmo" : "cashapp";
 
   const item = getCatalogItem(itemId);
   if (!item) {
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Enter a valid email to receive your download link." }, { status: 400 });
   }
 
-  const order = await createOrder({ itemId, buyerEmail, note });
+  const order = await createOrder({ itemId, buyerEmail, note, paymentMethod });
 
   try {
     await sendNewOrderNotification({
@@ -28,6 +29,7 @@ export async function POST(req: NextRequest) {
       priceUsd: item.priceUsd,
       buyerEmail,
       note,
+      paymentMethod,
     });
   } catch (err) {
     console.error("order notification email failed", err);

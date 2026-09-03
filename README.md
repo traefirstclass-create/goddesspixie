@@ -5,11 +5,12 @@ Next.js (App Router) + Tailwind, meant to deploy on Vercel.
 
 ## How the PPV flow works
 
-Cash App has no public API for verifying payments to a personal account, so this is a manual
-approval flow, not real-time checkout:
+Cash App and Venmo have no public API for verifying payments to a personal account, so this is a
+manual approval flow, not real-time checkout:
 
-1. A visitor picks an item, enters their email, and is shown your Cash App `$cashtag`.
-2. You get an email notification. Check Cash App for a matching payment.
+1. A visitor picks an item, chooses Cash App or Venmo, enters their email, and is shown the
+   matching `$cashtag` / `@venmo-handle`.
+2. You get an email notification naming which app to check. Check it for a matching payment.
 3. Go to `/admin`, log in, and click **Approve & send link** on that order.
 4. The buyer gets an emailed link to `/download/<token>` — a single-use, 3-day-expiring link
    that streams the file straight from Google Drive server-side. The buyer never sees the Drive
@@ -37,22 +38,21 @@ You'll need to create a few accounts/keys — I can't provision third-party acco
 
 ## Things you still need to fill in
 
-- **`src/lib/links.ts`** — the OnlyFans, Twitter, All Things Worn, WishTender, and Throne URLs
-  are placeholders (`TODO-handle`). Swap in the real profile links.
-- **`src/lib/catalog.ts`** — add real PPV items: title, price, description, a teaser thumbnail,
-  and the `driveFileId` (the id from the file's Drive URL: `drive.google.com/file/d/<this>/view`).
-  Remember to share that file with the service account email first.
-- **`public/images/gallery/`** — replace the placeholder SVGs with real approved images
-  (hero avatar + gallery grid). Keep file sizes reasonable (compress large photos before adding).
-- **Cash App handle** — currently `$pixieinthehoops7`, set via `NEXT_PUBLIC_CASHAPP_HANDLE`.
+- **`src/lib/catalog.ts`** — still has one TODO example PPV item. Add real items: title, price,
+  description, a teaser thumbnail, and the `driveFileId` (the id from the file's Drive URL:
+  `drive.google.com/file/d/<this>/view`). Remember to share that file with the service account
+  email first.
+- **Pornhub link** — intentionally left off `src/lib/links.ts` until that URL is ready.
+- **Cash App / Venmo handles** — set via `NEXT_PUBLIC_CASHAPP_HANDLE` / `NEXT_PUBLIC_VENMO_HANDLE`
+  (currently `$pixieinthehoops7` / `@pixieinthehoops7`).
 
-## Note on Cash App / Square
+## Note on Cash App / Venmo
 
-Cash App's parent company (Square) restricts adult-content commerce in its merchant terms. This
-build treats Cash App as an informal, buyer-initiated payment (like a tip jar) that you confirm
-manually — there's no real checkout integration, and there shouldn't be, to avoid violating those
-terms. If you want a fully automated storefront later, that requires an adult-friendly payment
-processor (e.g. CCBill, Segpay, Verotel).
+Cash App (Square) and Venmo (PayPal) both restrict adult-content commerce in their merchant
+terms. This build treats them as informal, buyer-initiated payments (like a tip jar) that you
+confirm manually — there's no real checkout integration, and there shouldn't be, to avoid
+violating those terms. If you want a fully automated storefront later, that requires an
+adult-friendly payment processor (e.g. CCBill, Segpay, Verotel).
 
 ## Local development
 

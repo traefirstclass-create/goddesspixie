@@ -5,6 +5,11 @@ import type { CatalogItem, Order } from "@/types";
 
 type OrderWithItem = Order & { item: CatalogItem | null };
 
+const PAYMENT_METHOD_LABEL: Record<Order["paymentMethod"], string> = {
+  cashapp: "Cash App",
+  venmo: "Venmo",
+};
+
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
@@ -87,7 +92,7 @@ export default function AdminPage() {
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-2xl text-white">Pending orders</h1>
         <p className="mt-1 text-sm text-muted">
-          Approve only after you&apos;ve confirmed the matching Cash App payment.
+          Approve only after you&apos;ve confirmed the matching payment in Cash App or Venmo.
         </p>
 
         <div className="mt-8 space-y-4">
@@ -104,7 +109,13 @@ export default function AdminPage() {
                   {new Date(order.createdAt).toLocaleString()}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-muted">Buyer: {order.buyerEmail}</p>
+              <p className="mt-2 text-sm text-white">
+                Pay via{" "}
+                <span className="font-semibold text-accent">
+                  {PAYMENT_METHOD_LABEL[order.paymentMethod]}
+                </span>
+              </p>
+              <p className="mt-1 text-sm text-muted">Buyer: {order.buyerEmail}</p>
               {order.note && <p className="mt-1 text-sm text-muted">Note: {order.note}</p>}
               <div className="mt-4 flex gap-3">
                 <button

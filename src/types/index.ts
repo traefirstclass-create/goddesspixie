@@ -9,11 +9,14 @@ export type CatalogItem = {
 
 export type OrderStatus = "pending" | "approved" | "fulfilled" | "rejected";
 
+export type PaymentMethod = "cashapp" | "venmo";
+
 export type Order = {
   id: string;
   itemId: string;
   buyerEmail: string;
   note: string;
+  paymentMethod: PaymentMethod;
   status: OrderStatus;
   createdAt: number;
 };

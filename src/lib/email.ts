@@ -1,4 +1,10 @@
 import { Resend } from "resend";
+import type { PaymentMethod } from "@/types";
+
+const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = {
+  cashapp: "Cash App",
+  venmo: "Venmo",
+};
 
 function client(): Resend {
   const key = process.env.RESEND_API_KEY;
@@ -34,20 +40,23 @@ export async function sendNewOrderNotification(input: {
   priceUsd: number;
   buyerEmail: string;
   note: string;
+  paymentMethod: PaymentMethod;
 }): Promise<void> {
   const adminUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/admin`;
+  const methodLabel = PAYMENT_METHOD_LABEL[input.paymentMethod];
   await client().emails.send({
     from: fromAddress(),
     to: ownerAddress(),
-    subject: `New PPV order: ${input.itemTitle} ($${input.priceUsd})`,
+    subject: `New PPV order (${methodLabel}): ${input.itemTitle} ($${input.priceUsd})`,
     text: [
       `Item: ${input.itemTitle}`,
       `Price: $${input.priceUsd}`,
+      `Payment method: ${methodLabel}`,
       `Buyer email: ${input.buyerEmail}`,
       `Buyer note: ${input.note || "(none)"}`,
       `Order ID: ${input.orderId}`,
       "",
-      `Check Cash App for a matching payment, then approve it here: ${adminUrl}`,
+      `Check ${methodLabel} for a matching payment, then approve it here: ${adminUrl}`,
     ].join("\n"),
   });
 }

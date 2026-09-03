@@ -1,6 +1,6 @@
 import { redis as kv } from "@/lib/redis";
 import { randomUUID, randomBytes } from "crypto";
-import { DownloadToken, Order } from "@/types";
+import { DownloadToken, Order, PaymentMethod } from "@/types";
 
 const PENDING_ORDERS_KEY = "orders:pending";
 const ORDER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
@@ -10,12 +10,14 @@ export async function createOrder(input: {
   itemId: string;
   buyerEmail: string;
   note: string;
+  paymentMethod: PaymentMethod;
 }): Promise<Order> {
   const order: Order = {
     id: randomUUID(),
     itemId: input.itemId,
     buyerEmail: input.buyerEmail,
     note: input.note,
+    paymentMethod: input.paymentMethod,
     status: "pending",
     createdAt: Date.now(),
   };
