@@ -1,6 +1,22 @@
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-6 pb-16 pt-20 text-center">
+    <section className="relative flex min-h-[440px] flex-col justify-end overflow-hidden px-6 pb-16 pt-20 text-center sm:min-h-[540px]">
+      <div className="absolute inset-0 -z-20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/gallery/hero-header.jpg"
+          alt=""
+          className="h-full w-full object-cover"
+          style={{ objectPosition: "62% 35%" }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(11,11,15,0.35) 0%, rgba(11,11,15,0.55) 35%, rgba(11,11,15,0.92) 80%, #0b0b0f 100%)",
+          }}
+        />
+      </div>
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-60"
         style={{
