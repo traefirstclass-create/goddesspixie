@@ -22,6 +22,14 @@ export const catalog: CatalogItem[] = [
     driveFileId: "1haGVSEZzRza6ljXslj2apptxofVA1uSz",
     thumbnail: "/images/gallery/catalog-wwyd.jpg",
   },
+  {
+    id: "whip-pathetic-penis",
+    title: "WATCH ME WHIP THIS PATHETIC PENIS",
+    description: "I love whipping your pathetic penis with my belt! CBT with dirty talk/femdom!",
+    priceUsd: 20,
+    driveFileId: "1sZM3yXpq4TdR_yRCQb2NKIskl9bP4KTn",
+    thumbnail: "/images/gallery/catalog-whip.jpg",
+  },
 ];
 
 export function getCatalogItem(id: string): CatalogItem | undefined {
