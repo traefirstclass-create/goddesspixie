@@ -28,7 +28,7 @@ involved. Like orders, it needs Redis connected to show real numbers.
 You'll need to create a few accounts/keys — I can't provision third-party accounts for you.
 
 1. **Vercel Redis (Upstash)** — In your Vercel project: Storage → Marketplace → Redis → connect
-   to project. This auto-injects `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`.
+   to project. This auto-injects `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
 2. **Resend** (resend.com) — for the contact form and order/delivery emails. Get an API key,
    verify a sending domain, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL`.
 3. **Google Drive service account** — so the server can stream files without exposing them:
